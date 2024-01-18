@@ -20,21 +20,16 @@ variable "admin_group_name" {
   default     = "rad-lab-admins"
 }
 
-variable "secret_manager_location" {
-  description = "The location where the secret is stored in the Secret Manager."
-  type        = string
-  default     = "us-central1"
-}
-
 variable "app_engine_location" {
   description = "The location where the App Engine project will be created."
   type        = string
-  default     = "us-central"
+  default     = "asia-southeast1"
 }
 
 variable "billing_account_id" {
   description = "Billing account that will be attached to the Google Cloud project."
   type        = string
+  default     = "01A31F-7BC6AF-3620C5"
 
   validation {
     condition     = var.billing_account_id == null || can(regex("^[0-9A-Z]{6}-[0-9A-Z]{6}-[0-9A-Z]{6}$", var.billing_account_id))
@@ -46,7 +41,7 @@ variable "billing_account_id" {
 variable "bucket_admin_location" {
   description = "Location where the bucket should be stored that stores the Admin terraform state files."
   type        = string
-  default     = "US"
+  default     = "ASIA"
 }
 
 variable "bucket_admin_name" {
@@ -64,7 +59,7 @@ variable "bucket_admin_versioning" {
 variable "bucket_deployments_location" {
   description = "Location where the bucket should be stored."
   type        = string
-  default     = "US"
+  default     = "ASIA"
 }
 
 variable "bucket_deployments_name" {
@@ -82,7 +77,7 @@ variable "bucket_deployments_versioning" {
 variable "bucket_function_deployments_location" {
   description = "Location where the bucket stores it archives for deploying Cloud Functions."
   type        = string
-  default     = "US"
+  default     = "ASIA"
 }
 
 variable "bucket_function_deployments_name" {
@@ -154,6 +149,7 @@ variable "git_repo_access_token" {
 variable "git_repo_url" {
   description = "URL of the repository where the module code will be stored.  Used by Cloud Build to retrieve the source code and build modules.  If you want to use the open source repository, this can be set to https://github.com/GoogleCloudPlatform/rad-lab."
   type        = string
+  default     = "https://github.com/victorakh/radlab-dev"
 }
 
 variable "git_repo_type" {
@@ -199,11 +195,13 @@ variable "module_deployment_folder" {
 variable "organization_name" {
   description = "Domain of the organization where the project will be created."
   type        = string
+  default    = "gacteam.online"
 }
 
 variable "parent" {
   description = "Parent ID where the RAD Lab UI project should be created.  Has to be formatted as 'folders/12345678'"
   type        = string
+  default     = "folders/608348433769"
 
   validation {
     condition     = var.parent == null || can(regex("^folders/[0-9]+", var.parent))
@@ -238,7 +236,7 @@ variable "project_name" {
 variable "region" {
   description = "Default region for most resources."
   type        = string
-  default     = "us-central1"
+  default     = "asia-southeast1"
 }
 
 variable "set_billing_permissions" {
@@ -250,7 +248,7 @@ variable "set_billing_permissions" {
 variable "super_admins" {
   description = "Grants Owner permissions on the project.  Should only be used during the initial phase or as a break glass procedure.  Should come in the format user:, group:"
   type        = set(string)
-  default     = []
+  default     = ["user:rad-lab-module-creator@rad-lab-ui-3030.iam.gserviceaccount.com"]
 }
 
 variable "terraform_builder_checksum" {
