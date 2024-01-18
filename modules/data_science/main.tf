@@ -20,7 +20,14 @@ locals {
   ? try(module.project_radlab_ds_analytics.0, null)
   : try(data.google_project.existing_project.0, null)
   )
-  region = join("-", [split("-", var.zone)[0], split("-", var.zone)[1]])
+
+
+
+  #hardcode Singapore to bypass the region/zone bug
+  #region = join("-", [split("-", var.zone)[0], split("-", var.zone)[1]])
+  region = "asia-southeast1"
+
+
 
   network = (
   var.create_network
@@ -169,20 +176,27 @@ resource "google_service_account_iam_member" "sa_ai_notebook_iam" {
   service_account_id = google_service_account.sa_p_notebook.id
 }
 
+
+
 resource "null_resource" "ai_notebook_usermanaged_provisioning_state" {
   for_each = toset(google_notebooks_instance.ai_notebook_usermanaged[*].name)
   provisioner "local-exec" {
-    command = "while [ \"$(gcloud notebooks instances list --location ${var.zone} --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"
-  }
+    #command = "while [ \"$(gcloud notebooks instances list --location ${var.zone} --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"
+    #hardcode Singapore to bypass the region/zone bug
+    command = "while [ \"$(gcloud notebooks instances list --location \"asia-southeast1-a\" --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"  
+}
 
   depends_on = [google_notebooks_instance.ai_notebook_usermanaged]
 }
+
+
+
 
 resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   count        = var.notebook_count > 0 && var.create_usermanaged_notebook ? var.notebook_count : 0
   project      = local.project.project_id
   name         = "usermanaged-notebooks-${count.index + 1}"
-  location     = var.zone
+  location     = "asia-southeast1-a"
   machine_type = var.machine_type
 
   dynamic "vm_image" {
