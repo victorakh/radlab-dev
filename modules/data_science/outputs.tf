@@ -54,8 +54,7 @@ output "project_id" {
   value       = local.project.project_id
 }
 
-output "user_scripts_bucket_uri" {
-  description = "User Script Bucket URI"
-  value       = google_storage_bucket.user_scripts_bucket.self_link
-}
-
+#output "user_scripts_bucket_uri" {
+#  description = "User Script Bucket URI"
+#  value       = google_storage_bucket.user_scripts_bucket.self_link
+#}
