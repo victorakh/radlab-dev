@@ -150,8 +150,9 @@ variable "deployment_id" {
 variable "enable_gpu_driver" {
   description = "Install GPU driver on the instance. {{UIMeta group=3 order=9 }}"
   type        = bool
-  default     = false
+  default     = true
 }
+
 
 variable "enable_services" {
   description = "Enable the necessary APIs on the project.  When using an existing project, this can be set to false. {{UIMeta group=1 order=3 }}"
