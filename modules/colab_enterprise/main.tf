@@ -28,19 +28,7 @@ locals {
   region = "asia-southeast1"
 
 
-
-    
-  default_apis = [
-    "compute.googleapis.com",
-    "bigquery.googleapis.com",
-    "notebooks.googleapis.com",
-    "bigquerystorage.googleapis.com"
-  ]
-  project_services = var.enable_services ? (var.billing_budget_pubsub_topic ? distinct(concat(local.default_apis,["pubsub.googleapis.com"])) : local.default_apis) : []
-}
-
-
-
+  
 resource "random_id" "default" {
   count       = var.deployment_id == null ? 1 : 0
   byte_length = 2
@@ -63,7 +51,6 @@ module "project_radlab_ds_analytics" {
   name              = format("%s-%s", var.project_id_prefix, local.random_id)
   random_project_id = false
   folder_id         = var.folder_id
-  billing_account   = var.billing_account_id
   org_id            = var.organization_id
 
   activate_apis = []
@@ -81,26 +68,6 @@ resource "google_project_service" "enabled_services" {
   ]
 }
 
-
-resource "google_service_account" "sa_p_notebook" {
-  project      = local.project.project_id
-  account_id   = format("sa-p-notebook-%s", local.random_id)
-  display_name = "Notebooks in trusted environment"
-}
-
-resource "google_project_iam_member" "sa_p_notebook_permissions" {
-  for_each = toset(local.notebook_sa_project_roles)
-  project  = local.project.project_id
-  member   = "serviceAccount:${google_service_account.sa_p_notebook.email}"
-  role     = each.value
-}
-
-resource "google_service_account_iam_member" "sa_ai_notebook_iam" {
-  for_each           = toset(concat(formatlist("user:%s", var.trusted_users), formatlist("group:%s", var.trusted_groups)))
-  member             = each.value
-  role               = "roles/iam.serviceAccountUser"
-  service_account_id = google_service_account.sa_p_notebook.id
-}
 
 
 
