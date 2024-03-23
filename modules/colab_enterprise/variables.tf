@@ -129,35 +129,13 @@ variable "create_usermanaged_notebook" {
   default     = true
 }
 
-variable "container_image_repository" {
-  description = "Container Image Repo, only set if creating container image notebook instance by setting `create_container_image` variable to true. {{UIMeta group=3 order=4 }}"
-  type        = string
-  default     = ""
-}
 
-variable "container_image_tag" {
-  description = "Container Image Tag, only set if creating container image notebook instance by setting `create_container_image` variable to true. {{UIMeta group=3 order=5 }}"
-  type        = string
-  default     = "latest"
-}
+
 
 variable "deployment_id" {
   description = "Adds a suffix of 4 random characters to the `project_id`."
   type        = string
   default     = null
-}
-
-variable "enable_gpu_driver" {
-  description = "Install GPU driver on the instance. {{UIMeta group=3 order=9 }}"
-  type        = bool
-  default     = true
-}
-
-
-variable "enable_services" {
-  description = "Enable the necessary APIs on the project.  When using an existing project, this can be set to false. {{UIMeta group=1 order=3 }}"
-  type        = bool
-  default     = true
 }
 
 variable "folder_id" {
@@ -166,29 +144,8 @@ variable "folder_id" {
   default     = ""
 }
 
-variable "gpu_accelerator_type" {
-  description = "Type of GPU you would like to spin up. {{UIMeta group=3 order=10 }}"
-  type        = string
-  default     = "NVIDIA_TESLA_T4"
-}
 
-variable "gpu_accelerator_core_count" {
-  description = "Number of of GPU core count. {{UIMeta group=3 order=11 }}"
-  type        = number
-  default     = 1
-}
 
-variable "image_family" {
-  description = "Image of the AI notebook. {{UIMeta group=3 order=13 }}"
-  type        = string
-  default     = "tf-latest-cpu"
-}
-
-variable "image_project" {
-  description = "Google Cloud project where the image is hosted. {{UIMeta group=3 order=12 }}"
-  type        = string
-  default     = "deeplearning-platform-release"
-}
 
 variable "ip_cidr_range" {
   description = "Unique IP CIDR Range for AI Notebooks subnet. {{UIMeta group=2 order=4 }}"
