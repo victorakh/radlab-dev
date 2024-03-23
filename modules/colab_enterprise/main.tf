@@ -124,25 +124,4 @@ resource "google_service_account_iam_member" "sa_ai_notebook_iam" {
 
 
 
-  service_account = google_service_account.sa_p_notebook.email
-
- 
-
-  post_startup_script = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
-
-  labels = {
-    module = "data-science"
-  }
-
-  metadata = {
-    terraform  = "true"
-    proxy-mode = "mail"
-  }
-  depends_on = [
-    time_sleep.wait_120_seconds,
-    google_storage_bucket_object.notebooks
-  ]
-}
-
-
 
