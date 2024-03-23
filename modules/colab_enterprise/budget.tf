@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+
 
 locals {
   emails = tolist(var.billing_budget_notification_email_addresses)
@@ -85,3 +85,6 @@ resource "google_billing_budget" "budget" {
     time_sleep.wait_120_seconds
   ]
 }
+
+
+ */
