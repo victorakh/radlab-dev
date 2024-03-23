@@ -87,23 +87,7 @@ variable "billing_budget_pubsub_topic" {
   default     = false
 }
 
-variable "boot_disk_size_gb" {
-  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=50,100,500 }}"
-  type        = number
-  default     = 100
-}
 
-variable "boot_disk_type" {
-  description = "Disk types for notebook instances. {{UIMeta group=3 order=7 }}"
-  type        = string
-  default     = "PD_SSD"
-}
-
-variable "create_budget" {
-  description = "If the budget should be created. {{UIMeta group=0 order=5 updatesafe }}"
-  type        = bool
-  default     = false
-}
 
 variable "create_container_image" {
   description = "If the notebook needs to have image type as Container set this variable to true, set it to false when using dafault image type i.e. VM. {{UIMeta group=3 order=3 }}"
@@ -111,25 +95,12 @@ variable "create_container_image" {
   default     = false
 }
 
-variable "create_network" {
-  description = "If the module has to be deployed in an existing network, set this variable to false. {{UIMeta group=2 order=1 }}"
-  type        = bool
-  default     = true
-}
 
 variable "create_project" {
   description = "Set to true if the module has to create a project.  If you want to deploy in an existing project, set this variable to false. {{UIMeta group=1 order=1 }}"
   type        = bool
   default     = true
 }
-
-variable "create_usermanaged_notebook" {
-  description = "Set to true if you want to create user managed workbench notebooks. If you want to create google managed workbench notebook, set this variable to false. {{UIMeta group=3 order=1 }}"
-  type        = bool
-  default     = true
-}
-
-
 
 
 variable "deployment_id" {
@@ -144,32 +115,6 @@ variable "folder_id" {
   default     = ""
 }
 
-
-
-
-variable "ip_cidr_range" {
-  description = "Unique IP CIDR Range for AI Notebooks subnet. {{UIMeta group=2 order=4 }}"
-  type        = string
-  default     = "10.142.190.0/24"
-}
-
-variable "machine_type" {
-  description = "Type of VM you would like to spin up. {{UIMeta group=3 order=6 }}"
-  type        = string
-  default     = "n1-standard-1"
-}
-
-variable "network_name" {
-  description = "Name of the network to be created. {{UIMeta group=2 order=2 }}"
-  type        = string
-  default     = "ai-notebook"
-}
-
-variable "notebook_count" {
-  description = "Number of AI Notebooks requested. {{UIMeta group=3 order=2 updatesafe }}"
-  type        = number
-  default     = 1
-}
 
 variable "organization_id" {
   description = "Organization ID where GCP Resources need to get spin up. It can be skipped if already setting folder_id. {{UIMeta group=0 order=1 }}"
@@ -207,12 +152,6 @@ variable "set_domain_restricted_sharing_policy" {
   default     = false
 }
 
-variable "set_external_ip_policy" {
-  description = "Enable org policy to allow External (Public) IP addresses on virtual machines. {{UIMeta group=0 order=17 updatesafe }}"
-  type        = bool
-  default     = false
-}
-
 variable "set_shielded_vm_policy" {
   description = "Apply org policy to disable shielded VMs. {{UIMeta group=0 order=18 updatesafe }}"
   type        = bool
@@ -225,11 +164,6 @@ variable "set_trustedimage_project_policy" {
   default     = false
 }
 
-variable "subnet_name" {
-  description = "Name of the subnet where to deploy the Notebooks. {{UIMeta group=2 order=3 }}"
-  type        = string
-  default     = "subnet-ai-notebook"
-}
 
 variable "trusted_groups" {
   description = "The list of trusted groups (e.g. `myteam@abc.com`). {{UIMeta group=1 order=5 updatesafe }}"
