@@ -99,62 +99,6 @@ resource "google_project_service" "enabled_services" {
   ]
 }
 
-data "google_compute_network" "default" {
-  count   = var.create_network ? 0 : 1
-  project = local.project.project_id
-  name    = var.network_name
-}
-
-data "google_compute_subnetwork" "default" {
-  count   = var.create_network ? 0 : 1
-  project = local.project.project_id
-  name    = var.subnet_name
-  region  = local.region
-}
-
-module "vpc_ai_notebook" {
-  count   = var.create_network && var.create_usermanaged_notebook ? 1 : 0
-  source  = "terraform-google-modules/network/google"
-  version = "~> 5.0"
-
-  project_id   = local.project.project_id
-  network_name = var.network_name
-  routing_mode = "GLOBAL"
-  description  = "VPC Network created via Terraform"
-
-  subnets = [
-    {
-      subnet_name           = var.subnet_name
-      subnet_ip             = var.ip_cidr_range
-      subnet_region         = local.region
-      description           = "Subnetwork inside *vpc-analytics* VPC network, created via Terraform"
-      subnet_private_access = true
-    }
-  ]
-
-  firewall_rules = [
-    {
-      name        = "fw-ai-notebook-allow-internal"
-      description = "Firewall rule to allow traffic on all ports inside *vpc-analytics* VPC network."
-      priority    = 65534
-      ranges      = ["10.0.0.0/8"]
-      direction   = "INGRESS"
-
-      allow = [
-        {
-          protocol = "tcp"
-          ports    = ["0-65535"]
-        }
-      ]
-    }
-  ]
-
-  depends_on = [
-    module.project_radlab_ds_analytics,
-    google_project_service.enabled_services,
-    time_sleep.wait_120_seconds
-  ]
-}
 
 resource "google_service_account" "sa_p_notebook" {
   project      = local.project.project_id
@@ -178,63 +122,11 @@ resource "google_service_account_iam_member" "sa_ai_notebook_iam" {
 
 
 
-resource "null_resource" "ai_notebook_usermanaged_provisioning_state" {
-  for_each = toset(google_notebooks_instance.ai_notebook_usermanaged[*].name)
-  provisioner "local-exec" {
-    #command = "while [ \"$(gcloud notebooks instances list --location ${var.zone} --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"
-    #hardcode Singapore to bypass the region/zone bug
-    command = "while [ \"$(gcloud notebooks instances list --location \"asia-southeast1-a\" --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"  
-}
 
-  depends_on = [google_notebooks_instance.ai_notebook_usermanaged]
-}
-
-
-
-
-resource "google_notebooks_instance" "ai_notebook_usermanaged" {
-  count        = var.notebook_count > 0 && var.create_usermanaged_notebook ? var.notebook_count : 0
-  project      = local.project.project_id
-  name         = "usermanaged-notebooks-${count.index + 1}"
-  location     = "asia-southeast1-a"
-  machine_type = var.machine_type
-
-  dynamic "vm_image" {
-    for_each = var.create_container_image ? [] : [1]
-    content {
-      project      = var.image_project
-      image_family = var.image_family
-    }
-  }
-
-  dynamic "container_image" {
-    for_each = var.create_container_image ? [1] : []
-    content {
-      repository = var.container_image_repository
-      tag        = var.container_image_tag
-    }
-  }
-
-  install_gpu_driver = var.enable_gpu_driver
-
-  dynamic "accelerator_config" {
-    for_each = var.enable_gpu_driver ? [1] : []
-    content {
-      type       = var.gpu_accelerator_type
-      core_count = var.gpu_accelerator_core_count
-    }
-  }
 
   service_account = google_service_account.sa_p_notebook.email
 
-  boot_disk_type    = var.boot_disk_type
-  boot_disk_size_gb = var.boot_disk_size_gb
-
-  no_public_ip    = false
-  no_proxy_access = false
-
-  network = local.network.self_link
-  subnet  = local.subnet.self_link
+ 
 
   post_startup_script = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
 
@@ -252,67 +144,5 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   ]
 }
 
-resource "google_notebooks_runtime" "ai_notebook_googlemanaged" {
-  count    = var.notebook_count > 0 && !var.create_usermanaged_notebook ? var.notebook_count : 0
-  name     = "googlemanaged-notebooks-${count.index + 1}"
-  project  = local.project.project_id
-  location = local.region
-  access_config {
-    access_type   = "SERVICE_ACCOUNT"
-    runtime_owner = google_service_account.sa_p_notebook.email
-  }
-  software_config {
-    post_startup_script          = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
-    post_startup_script_behavior = "RUN_EVERY_START"
-  }
-  virtual_machine {
-    virtual_machine_config {
-      machine_type = var.machine_type
-      dynamic "container_images" {
-        for_each = var.create_container_image ? [1] : []
-        content {
-          repository = var.container_image_repository
-          tag        = var.container_image_tag
-        }
-      }
-      data_disk {
-        initialize_params {
-          disk_size_gb = var.boot_disk_size_gb
-          disk_type    = var.boot_disk_type
-        }
-      }
-      dynamic "accelerator_config" {
-        for_each = var.enable_gpu_driver ? [1] : []
-        content {
-          type       = var.gpu_accelerator_type
-          core_count = var.gpu_accelerator_core_count
-        }
-      }
-    }
-  }
-  depends_on = [
-    time_sleep.wait_120_seconds,
-    google_storage_bucket_object.notebooks
-  ]
-}
 
-resource "google_storage_bucket" "user_scripts_bucket" {
-  project                     = local.project.project_id
-  name                        = join("", ["user-scripts-", local.project.project_id])
-  location                    = local.region
-  force_destroy               = true
-  uniform_bucket_level_access = true
 
-  cors {
-    origin          = ["http://user-scripts"]
-    method          = ["GET", "HEAD", "PUT", "POST", "DELETE"]
-    response_header = ["*"]
-    max_age_seconds = 3600
-  }
-}
-
-resource "google_storage_bucket_iam_binding" "binding" {
-  bucket  = google_storage_bucket.user_scripts_bucket.name
-  role    = "roles/storage.admin"
-  members = toset(concat(formatlist("user:%s", var.trusted_users), formatlist("group:%s", var.trusted_groups)))
-}
