@@ -20,21 +20,14 @@ locals {
   ? try(module.project_radlab_ds_analytics.0, null)
   : try(data.google_project.existing_project.0, null)
   )
+}
 
-
-
-  #hardcode Singapore to bypass the region/zone bug
-  #region = join("-", [split("-", var.zone)[0], split("-", var.zone)[1]])
-  region = "asia-southeast1"
-
-
-  
 resource "random_id" "default" {
   count       = var.deployment_id == null ? 1 : 0
   byte_length = 2
 }
 
-}
+
 
 #####################
 # ANALYTICS PROJECT #
