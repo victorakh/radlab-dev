@@ -34,7 +34,7 @@ variable "billing_budget_alert_spent_percents" {
 variable "billing_budget_amount" {
   description = "The amount to use as the budget in USD. {{UIMeta group=0 order=8 updatesafe }}"
   type        = number
-  default     = 500
+  default     = 1024
 }
 
 variable "billing_budget_amount_currency_code" {
