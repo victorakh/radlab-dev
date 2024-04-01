@@ -88,7 +88,7 @@ variable "billing_budget_pubsub_topic" {
 }
 
 variable "boot_disk_size_gb" {
-  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=50,100,500 }}"
+  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=500 }}"
   type        = number
   default     = 500
 }
@@ -235,7 +235,7 @@ variable "owner_users" {
 variable "project_id_prefix" {
   description = "If `create_project` is true, this will be the prefix of the Project ID & name created. If `create_project` is false this will be the actual Project ID, of the existing project where you want to deploy the module. {{UIMeta group=1 order=2 }}"
   type        = string
-  default     = "radlab-data-science"
+  default     = "radlab-small-ds"
 }
 
 variable "resource_creator_identity" {
