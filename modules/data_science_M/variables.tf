@@ -34,7 +34,7 @@ variable "billing_budget_alert_spent_percents" {
 variable "billing_budget_amount" {
   description = "The amount to use as the budget in USD. {{UIMeta group=0 order=8 updatesafe }}"
   type        = number
-  default     = 1024
+  default     = 1000
 }
 
 variable "billing_budget_amount_currency_code" {
@@ -88,9 +88,9 @@ variable "billing_budget_pubsub_topic" {
 }
 
 variable "boot_disk_size_gb" {
-  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=50,100,500 }}"
+  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=500,1024 }}"
   type        = number
-  default     = 500
+  default     = 1024
 }
 
 variable "boot_disk_type" {
