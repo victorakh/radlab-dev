@@ -88,7 +88,7 @@ variable "billing_budget_pubsub_topic" {
 }
 
 variable "boot_disk_size_gb" {
-  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=500 }}"
+  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=100 }}"
   type        = number
   default     = 100
 }
