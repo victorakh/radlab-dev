@@ -35,9 +35,3 @@ resource "google_storage_bucket_object" "notebook_post_os_hardening_script" {
   bucket = google_storage_bucket.user_scripts_bucket.name
 }
 
-//Amend - Install the Google Cloud Ops Agent script
-resource "google_storage_bucket_object" "notebook_post_install_ops_agent_script" {
-  name   = "notebooks/install_ops_agent_script.sh"
-  source = "${path.module}/scripts/build/install_ops_agent_script.sh"
-  bucket = google_storage_bucket.user_scripts_bucket.name
-}
