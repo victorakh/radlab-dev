@@ -274,7 +274,7 @@ variable "set_shielded_vm_policy" {
 }
 
 variable "set_trustedimage_project_policy" {
-  description = "Apply org policy to set the trusted image projects. {{UIMeta group=0 order=19 updatesafe }}"
+  description = "Apply org policy to set the trusted image projects. {{UIMeta group=0 bucket_id_prefix updatesafe }}"
   type        = bool
   default     = false
 }
@@ -309,7 +309,7 @@ variable "zone" {
 
 ## Amend- Buket ID prefix
 variable "bucket_id_prefix" {
-  description = "Bucket ID Prefix"
+  description = "Bucket ID Prefix. {{UIMeta group=0 order=19 }}"
   type        = string
   default     = "ntu-radlab-bucket"
 }
