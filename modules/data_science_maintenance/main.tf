@@ -317,3 +317,56 @@ resource "google_storage_bucket_iam_binding" "binding" {
   role    = "roles/storage.admin"
   members = toset(concat(formatlist("user:%s", var.trusted_users), formatlist("group:%s", var.trusted_groups)))
 }
+
+
+
+## Modification starts here
+
+# Create Cloud Storage bucket
+resource "google_storage_bucket" "notebook_bucket" {
+  project                     = local.project.project_id
+  name                        = join("", ["jupyter-cloud-storage"])
+  location                    = local.region
+  force_destroy               = true
+  uniform_bucket_level_access = true
+}
+
+# Create Cloud Storage bucket IAM binding
+resource "google_storage_bucket_iam_binding" "notebook_bucket_binding" {
+  bucket  = google_storage_bucket.notebook_bucket.name
+  role    = "roles/storage.admin"
+  members = toset(concat(formatlist("user:%s", var.trusted_users), formatlist("group:%s", var.trusted_groups)))
+}
+
+
+# Enable VM Manager service
+resource "google_project_service" "vm_manager" {
+  project = local.project.project_id
+  service = "osconfig.googleapis.com"  # Service name for VM Manager
+}
+
+
+resource "google_compute_project_metadata_item" "enable-osconfig" {
+  project = local.project.project_id
+  key     = "enable-osconfig"
+  value   = "TRUE"
+}
+
+
+
+# Create OS Patch Job
+resource "google_os_config_patch_deployment" "patch" {
+  project                     = local.project.project_id
+  patch_deployment_id = "patch-deploy"
+
+  instance_filter {
+    all = true
+  }
+
+  one_time_schedule {
+    execute_time = "2023-10-10T10:10:10.045123456Z"
+  }
+}
+
+
+
