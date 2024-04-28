@@ -2,10 +2,17 @@
 
 #!/bin/bash
 
-# Ensure the script is run as root
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
+# Define the output file with date
+OUTPUT_FILE="/home/jupyter/os-hardening-output-$(date +%F).txt"
+
+# Redirect all output to a file
+exec > "$OUTPUT_FILE" 2>&1
+
+# Ensure the script is run as root or sudo privileges 
+if [ "$EUID" -ne 0 ]; then
+  echo "This script must be run as root. Re-invoking with sudo..."
+  sudo "$0" "$@"  # Re-run the current script as root
+  exit $?
 fi
 
 # Function to check if a package is installed
