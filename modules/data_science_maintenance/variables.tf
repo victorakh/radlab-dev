@@ -306,3 +306,10 @@ variable "zone" {
   type        = string
   default     = "asia-southeast1-a"
 }
+
+## Amend- Buket ID prefix
+variable "bucket_id_prefix" {
+  description = "Bucket ID Prefix"
+  type        = string
+  default     = "ntu-radlab-bucket"
+}
