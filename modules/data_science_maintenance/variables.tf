@@ -93,6 +93,11 @@ variable "boot_disk_size_gb" {
   default     = 100
 }
 
+variable "boot_disk_type" {
+  description = "Disk types for notebook instances. {{UIMeta group=3 order=7 }}"
+  type        = string
+  default     = "PD_SSD"
+}
 
 variable "data_disk_size_gb" {
   description = "The size of the data disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=200 }}"
@@ -100,12 +105,11 @@ variable "data_disk_size_gb" {
   default     = 200
 }
 
-variable "boot_disk_type" {
-  description = "Disk types for notebook instances. {{UIMeta group=3 order=7 }}"
+variable "data_disk_type" {
+  description = "Data Disk types for notebook instances. {{UIMeta group=3 order=7 }}"
   type        = string
   default     = "PD_SSD"
 }
-
 variable "create_budget" {
   description = "If the budget should be created. {{UIMeta group=0 order=5 updatesafe }}"
   type        = bool
