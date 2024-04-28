@@ -363,21 +363,19 @@ resource "google_os_config_patch_deployment" "patch" {
     all = true  # Apply the patch to all instances
   }
 
-  # Define a recurring schedule
   recurring_schedule {
-    time_zone = "Asia/Singapore"  # Set the time zone to Singapore
-
     time_of_day {
       hours   = 22  # Set the time to 10 PM
       minutes = 0
     }
+
+    time_zone = "Asia/Singapore"  # Set the time zone to Singapore
 
     monthly {
       month_day = 28  # Set the day of the month to 28
     }
   }
 
-  # Patch configuration with reboot setting
   patch_config {
     reboot_config = "ALWAYS"  # Reboot always after patching
     apt {
@@ -394,5 +392,3 @@ resource "google_os_config_patch_deployment" "patch" {
     }
   }
 }
-
-
