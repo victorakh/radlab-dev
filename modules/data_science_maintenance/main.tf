@@ -332,7 +332,7 @@ resource "google_storage_bucket_iam_binding" "binding" {
 # Create Cloud Storage bucket
 resource "google_storage_bucket" "notebook_bucket" {
   project                     = local.project.project_id
-  name                        = format("%s-%s", var.bucket_id, local.random_id)
+  name                        = format("%s-%s", var.bucket_id_prefix, local.random_id)
   location                    = local.region
   force_destroy               = true
   uniform_bucket_level_access = true
