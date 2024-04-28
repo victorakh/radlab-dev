@@ -231,8 +231,8 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   boot_disk_type    = var.boot_disk_type
   boot_disk_size_gb = var.boot_disk_size_gb
 
-  data_disk_size_gb = var.data_disk_size_gb   //adding datadisk
   data_disk_type    = var.data_disk_type      //adding datadisk
+  data_disk_size_gb = var.data_disk_size_gb   //adding datadisk
 
   no_public_ip    = false
   no_proxy_access = false
@@ -283,9 +283,6 @@ resource "google_notebooks_runtime" "ai_notebook_googlemanaged" {
         initialize_params {
           disk_size_gb = var.boot_disk_size_gb
           disk_type    = var.boot_disk_type
-          data_disk_size_gb = var.data_disk_size_gb   //adding datadisk
-          data_disk_type    = var.data_disk_type      //adding datadisk
-
         }
       }
       dynamic "accelerator_config" {
