@@ -364,7 +364,7 @@ resource "google_os_config_patch_deployment" "patch" {
   }
 
   one_time_schedule {
-    execute_time = "2023-10-10T10:10:10.045123456Z"
+    execute_time = timeadd(timestamp(), "28d")
   }
 }
 
