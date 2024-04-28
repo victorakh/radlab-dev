@@ -280,6 +280,9 @@ resource "google_notebooks_runtime" "ai_notebook_googlemanaged" {
         initialize_params {
           disk_size_gb = var.boot_disk_size_gb
           disk_type    = var.boot_disk_type
+          data_disk_size_gb = var.data_disk_size_gb   //adding datadisk
+          disk_type         = var.data_disk_type      //adding datadisk
+
         }
       }
       dynamic "accelerator_config" {
