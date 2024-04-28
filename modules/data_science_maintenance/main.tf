@@ -356,17 +356,43 @@ resource "google_compute_project_metadata_item" "enable-osconfig" {
 
 # Create OS Patch Job
 resource "google_os_config_patch_deployment" "patch" {
-  project                     = local.project.project_id
+  project             = local.project.project_id
   patch_deployment_id = "patch-deploy"
 
   instance_filter {
-    all = true
+    all = true  # Apply the patch to all instances
   }
 
-  one_time_schedule {
-    execute_time = timeadd(timestamp(), "28d")
+  # Define a recurring schedule
+  recurring_schedule {
+    time_zone = "Asia/Singapore"  # Set the time zone to Singapore
+
+    time_of_day {
+      hours   = 22  # Set the time to 10 PM
+      minutes = 0
+    }
+
+    monthly {
+      month_day = 28  # Set the day of the month to 28
+    }
+  }
+
+  # Patch configuration with reboot setting
+  patch_config {
+    reboot_config = "ALWAYS"  # Reboot always after patching
+    apt {
+      type = "DIST"
+    }
+    yum {
+      minimal = true
+    }
+    goo {
+      enabled = true
+    }
+    windows_update {
+      classifications = ["CRITICAL", "SECURITY"]
+    }
   }
 }
-
 
 
