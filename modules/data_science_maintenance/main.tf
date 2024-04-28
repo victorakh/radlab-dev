@@ -47,7 +47,9 @@ locals {
     "roles/bigquery.user",
     "roles/storage.admin",
     "roles/iam.serviceAccountUser",
-    "roles/serviceusage.serviceUsageConsumer"
+    "roles/serviceusage.serviceUsageConsumer",
+    "roles/monitoring.metricWriter",   //Amend - Add role for OS Agent monitoring
+    "roles/logging.logWriter"          //Amend - Add role for OS Agent monitoring  
   ]
 
   default_apis = [
@@ -55,6 +57,7 @@ locals {
     "bigquery.googleapis.com",
     "notebooks.googleapis.com",
     "bigquerystorage.googleapis.com",
+    "logging.googleapis.com",     //Amend - Enable loggin API for OS Agent monitoring
     "monitoring.googleapis.com"
   ]
   project_services = var.enable_services ? (var.billing_budget_pubsub_topic ? distinct(concat(local.default_apis,["pubsub.googleapis.com"])) : local.default_apis) : []
