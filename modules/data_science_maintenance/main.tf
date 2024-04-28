@@ -54,7 +54,8 @@ locals {
     "compute.googleapis.com",
     "bigquery.googleapis.com",
     "notebooks.googleapis.com",
-    "bigquerystorage.googleapis.com"
+    "bigquerystorage.googleapis.com",
+    "monitoring.googleapis.com"
   ]
   project_services = var.enable_services ? (var.billing_budget_pubsub_topic ? distinct(concat(local.default_apis,["pubsub.googleapis.com"])) : local.default_apis) : []
 }
