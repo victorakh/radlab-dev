@@ -249,6 +249,7 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   metadata = {
     terraform  = "true"
     proxy-mode = "mail"
+    report-system-health = "true"  //Amend-Update report-system-health=TRUE
   }
   depends_on = [
     time_sleep.wait_120_seconds,
