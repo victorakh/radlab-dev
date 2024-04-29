@@ -368,40 +368,45 @@ resource "google_compute_project_metadata_item" "enable-osconfig" {
 
 # Patch OS monthly at 28th at 10pm SGT 
 resource "google_os_config_patch_deployment" "monthly_patch_debian" {
-  patch_deployment_id = "monthly-patch-deployment-debian"
-  description         = "Monthly Patch Deployment for Debian 11 with Conditional Reboot - Singapore Time Zone"
-  region              = "asia-southeast1"  
-
-  instance_filter {
-    all = false
-    inclusion_labels {
+  project = local.project.project_id
+  patch_deployment_id = "monthly-patch-debian"
+  description         = "Monthly Patch for Debian 11 with Reboot - Singapore Time Zone"
+ 
+   instance_filter {
+    group_labels {
       labels = {
-        os     = "debian11"
-        module = "data-science"
+    		os     = "debian11"
+       module = "data-science"
       }
     }
+    
+    zones = ["asia-southeast1-a", "asia-southeast1-b"]   
+   }
+
+  patch_config {
+    reboot_config = "DEFAULT" # Ensure the system always reboots after patching
+
+    apt {
+      type = "UPGRADE"
+    }
   }
+  duration = "1800s"
+
 
   recurring_schedule {
     time_zone {
-    id = "Asia/Singapore"
+      id = "Asia/Singapore"
     }
 
     time_of_day {
-      hours   = 22
+      hours = 22
       minutes = 0
     }
+
     monthly {
       month_day = 28
     }
   }
-
-  patch_config {
-    reboot_config = "DEFAULT"  # Reboot only if required by the patches
-
-    apt {
-      type = "DIST"
-    }
-  }
 }
+
 
