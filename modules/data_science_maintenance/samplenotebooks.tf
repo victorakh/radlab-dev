@@ -29,9 +29,9 @@ resource "google_storage_bucket_object" "notebook_post_startup_script" {
 }
 
 //Amend - Update hardening script
-resource "google_storage_bucket_object" "notebook_post_os_hardening_script" {
-  name   = "notebooks/os_hardening_script.sh"
-  source = "${path.module}/scripts/build/os_hardening_script.sh"
-  bucket = google_storage_bucket.user_scripts_bucket.name
-}
+#resource "google_storage_bucket_object" "notebook_post_os_hardening_script" {
+#  name   = "notebooks/os_hardening_script.sh"
+#  source = "${path.module}/scripts/build/os_hardening_script.sh"
+#  bucket = google_storage_bucket.user_scripts_bucket.name
+#}
 
