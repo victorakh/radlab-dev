@@ -384,7 +384,7 @@ resource "google_os_config_patch_deployment" "monthly_patch_debian" {
    }
 
   patch_config {
-    reboot_config = "DEFAULT" # Ensure the system always reboots after patching
+    reboot_config = "DEFAULT" # System will be rebooting only if required
 
     apt {
       type = "UPGRADE"
