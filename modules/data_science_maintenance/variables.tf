@@ -90,7 +90,7 @@ variable "billing_budget_pubsub_topic" {
 variable "boot_disk_size_gb" {
   description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=200 }}"
   type        = number
-  default     = 200
+  default     = 100
 }
 
 variable "boot_disk_type" {
@@ -102,7 +102,7 @@ variable "boot_disk_type" {
 variable "data_disk_size_gb" {
   description = "The size of the data disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=300 }}"
   type        = number
-  default     = 300
+  default     = 100
 }
 
 variable "data_disk_type" {
