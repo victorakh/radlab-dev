@@ -376,7 +376,7 @@ resource "google_os_config_patch_deployment" "monthly_patch_debian" {
     group_labels {
       labels = {
     		os     = "debian11"
-       module = "data-science"
+       module  = "data-science"
       }
     }
     
