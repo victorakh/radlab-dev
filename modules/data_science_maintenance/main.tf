@@ -235,8 +235,8 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   boot_disk_type    = var.boot_disk_type
   boot_disk_size_gb = var.boot_disk_size_gb
 
-  data_disk_type    = var.data_disk_type      //adding datadisk
-  data_disk_size_gb = var.data_disk_size_gb   //adding datadisk
+  data_disk_type    = var.data_disk_type      //Amend - adding datadisk
+  data_disk_size_gb = var.data_disk_size_gb   //Amend - adding datadisk
 
   no_public_ip    = false
   no_proxy_access = false
@@ -247,7 +247,7 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   post_startup_script = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
 
   labels = {
-    os     = "debian11"
+    os     = "debian11"       //Amend - add new label
     module = "data-science"
   }
 
