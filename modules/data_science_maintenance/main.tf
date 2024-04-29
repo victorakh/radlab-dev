@@ -383,7 +383,10 @@ resource "google_os_config_patch_deployment" "monthly_patch_debian" {
   }
 
   recurring_schedule {
-    time_zone = "Asia/Singapore"
+    time_zone {
+    id = "Asia/Singapore"
+    }
+
     time_of_day {
       hours   = 22
       minutes = 0
