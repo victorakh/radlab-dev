@@ -270,23 +270,10 @@ resource "google_notebooks_runtime" "ai_notebook_googlemanaged" {
     runtime_owner = google_service_account.sa_p_notebook.email
   }
 
-## Modify to run both scripts
-  software_config {
-    post_startup_script = <<EOF
-bash -c 'gsutil cp gs://${google_storage_bucket.user_scripts_bucket.name}/${google_storage_bucket_object.notebook_post_startup_script.name} /tmp/startup_script.sh; \
-gsutil cp gs://${google_storage_bucket.user_scripts_bucket.name}/${google_storage_bucket_object.notebook_post_os_hardening_script.name} /tmp/os_hardening_script.sh; \
-chmod +x /tmp/startup_script.sh /tmp/os_hardening_script.sh; \
-/tmp/startup_script.sh; /tmp/os_hardening_script.sh'
-EOF
+ software_config {
+    post_startup_script          = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
     post_startup_script_behavior = "RUN_EVERY_START"
-  }
-
-
-
-#  software_config {
-#    post_startup_script          = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
-#    post_startup_script_behavior = "RUN_EVERY_START"
-#  }
+ }
 
 
 
