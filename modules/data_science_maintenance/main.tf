@@ -243,7 +243,7 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   network = local.network.self_link
   subnet  = local.subnet.self_link
 
-#  post_startup_script = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
+  post_startup_script = format("gs://%s/%s", google_storage_bucket.user_scripts_bucket.name, google_storage_bucket_object.notebook_post_startup_script.name)
 
   labels = {
     module = "data-science"
@@ -331,7 +331,7 @@ resource "google_storage_bucket_iam_binding" "binding" {
 
 
 
-## Modification starts here name 
+## Modification starts here  
 
 # Create Cloud Storage bucket
 resource "google_storage_bucket" "notebook_bucket" {
