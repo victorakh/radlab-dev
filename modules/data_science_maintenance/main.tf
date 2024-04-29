@@ -366,12 +366,11 @@ resource "google_compute_project_metadata_item" "enable-osconfig" {
 }
 
 
-# Patch OS monthly at 28th at 10pm SGT 
+# Monthly OS Patch on 28th at 10pm SGT 
 resource "google_os_config_patch_deployment" "monthly_patch_debian" {
   project = local.project.project_id
   patch_deployment_id = "monthly-patch-debian"
-  description         = "Monthly Patch for Debian 11 with Reboot - Singapore Time Zone"
- 
+
    instance_filter {
     group_labels {
       labels = {
