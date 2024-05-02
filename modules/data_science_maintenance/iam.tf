@@ -25,8 +25,9 @@ resource "google_project_iam_member" "role_notebooks_admin" {
   role     = "roles/notebooks.admin"
 }
 
+#Amend - Adding STE CDCS users to view resources
 resource "google_project_iam_member" "role_viewer" {
-  for_each = toset(concat(formatlist("user:%s", var.trusted_users), formatlist("group:%s", var.trusted_groups)))
+  for_each = toset(concat(formatlist("user:%s", var.trusted_users), formatlist("group:%s", var.trusted_groups), formatlist("group:%s", var.rad-lab-users)))
   project  = local.project.project_id
   member   = each.value
   role     = "roles/viewer"
