@@ -43,7 +43,7 @@ output "notebooks_usermanaged_names" {
 output "notebooks_usermanaged_urls" {
   description = "User managed notebook access URLs"
 #  value       = formatlist("https://%s", google_notebooks_instance.ai_notebook_usermanaged[*].proxy_uri)
-  value       = formatlist("https://%s", google_notebooks_instance.ai_notebook_usermanaged.proxy_uri)   // Amend - notebook name changes
+  value       = formatlist("https://%s", google_notebooks_instance.ai_notebook_usermanaged[*].proxy_uri)   // Amend - notebook name changes
 
   depends_on = [
     null_resource.ai_notebook_usermanaged_provisioning_state
