@@ -221,7 +221,7 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
 #  name         = "notebook-${count.index + 1}-${var.project_id_prefix}"        // Amend - usermanaged notebook name -  "notebook-1-projectname
 #  name         = "usermanaged-notebooks-${count.index + 1}"  // Original
 
-  name         = "notebook-${var.project_id_prefix}-${count.index + 1}"
+  name         = "notebook-${var.project_id_prefix}-${count.index + 1}"    // Amend - usermanaged notebook name -  "notebook-projectname-1"
   location     = "asia-southeast1-a"
   machine_type = var.machine_type
 
