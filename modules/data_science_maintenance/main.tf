@@ -181,6 +181,25 @@ resource "google_service_account_iam_member" "sa_ai_notebook_iam" {
 }
 
 
+# Amend - adding customer role to start and stop vm 
+resource "google_project_iam_custom_role" "compute_start_stop_custom_role" {
+  title = "compute_start_stop_custom_role"
+  role_id     = "compute_start_stop_custom_role"
+  description = "Allows starting and stopping Compute Engine VMs"
+  project      = local.project.project_id
+  permissions = [
+    "compute.instances.start",
+    "compute.instances.stop",
+  ]
+}
+
+# Amend - assosicate start stop vm custom role with STE CDCS users group
+resource "google_project_iam_member" "member_custom_role" {
+  role    = google_project_iam_custom_role.compute_start_stop_custom_role.name
+  member  = "group:rad-lab-users@gacteam.online"
+  project = local.project.project_id
+}
+
 
 resource "null_resource" "ai_notebook_usermanaged_provisioning_state" {
   for_each = toset(google_notebooks_instance.ai_notebook_usermanaged[*].name)
