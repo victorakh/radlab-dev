@@ -297,7 +297,12 @@ variable "trusted_users" {
   default     = []
 }
 
-
+# Amend - STE CDCS Users group
+variable "rad-lab-users" {
+  description = "RAD Lab users group - STE CDCS day2 team users. {{UIMeta group=0 order=20}}"
+  type        = set(string)
+  default     = ["rad-lab-users@gacteam.online"]
+}
 
 #Hide this as I'm fixing the region/zone bug by hardcoding in main.tf so no point displaying this option
 variable "zone" {
