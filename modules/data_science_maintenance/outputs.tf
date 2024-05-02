@@ -25,15 +25,15 @@ output "deployment_id" {
   value       = local.random_id
 }
 
-output "notebooks_googlemanaged_names" {
-  description = "Google Managed Notebook Instance Names"
-  value       = join(", ", google_notebooks_runtime.ai_notebook_googlemanaged[*].name)
-}
+#output "notebooks_googlemanaged_names" {
+#  description = "Google Managed Notebook Instance Names"
+#  value       = join(", ", google_notebooks_runtime.ai_notebook_googlemanaged[*].name)
+#}
 
-output "notebooks_googlemanaged_urls" {
-  description = "Google Managed Notebook access URLs"
-  value       = formatlist("https://%s", google_notebooks_runtime.ai_notebook_googlemanaged[*].proxy_uri)
-}
+#output "notebooks_googlemanaged_urls" {
+#  description = "Google Managed Notebook access URLs"
+#  value       = formatlist("https://%s", google_notebooks_runtime.ai_notebook_googlemanaged[*].proxy_uri)
+#}
 
 output "notebooks_usermanaged_names" {
   description = "User Managed Notebook Instance Names"
