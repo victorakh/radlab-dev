@@ -110,6 +110,20 @@ variable "data_disk_type" {
   type        = string
   default     = "PD_SSD"
 }
+
+variable "tmp_disk_size_gb" {
+  description = "The size of the temp disk in GB attached to this instance.  {{UIMeta group=0 order=8 options=150 }}"
+  type        = number
+  default     = 10
+}
+
+variable "tmp_disk_type" {
+  description = "Data Disk types for notebook instances. {{UIMeta group=0 order=7 }}"
+  type        = string
+  default     = "PD_SSD"
+}
+
+
 variable "create_budget" {
   description = "If the budget should be created. {{UIMeta group=0 order=5 updatesafe }}"
   type        = bool
