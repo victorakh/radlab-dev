@@ -88,7 +88,7 @@ variable "billing_budget_pubsub_topic" {
 }
 
 variable "boot_disk_size_gb" {
-  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=8 options=100 }}"
+  description = "The size of the boot disk in GB attached to this instance.  {{UIMeta group=3 order=7 options=100 }}"
   type        = number
   default     = 100
 }
@@ -106,13 +106,13 @@ variable "data_disk_size_gb" {
 }
 
 variable "data_disk_type" {
-  description = "Data Disk types for notebook instances. {{UIMeta group=3 order=7 }}"
+  description = "Data Disk types for notebook instances. {{UIMeta group=3 order=8 }}"
   type        = string
   default     = "PD_SSD"
 }
 
 variable "tmp_disk_size_gb" {
-  description = "The size of the temp disk in GB attached to this instance.  {{UIMeta group=0 order=8 options=150 }}"
+  description = "The size of the temp disk in GB attached to this instance.  {{UIMeta group=0 order=8 options=10 }}"
   type        = number
   default     = 10
 }
