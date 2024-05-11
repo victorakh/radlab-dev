@@ -956,8 +956,16 @@ chmod 1777 /tmp
 # Backup the existing /etc/fstab
 cp /etc/fstab /etc/fstab.backup
 
-# Add the new partition to /etc/fstab so it remains mounted on reboot
-echo '/dev/sda2 /tmp ext4 defaults,nodev,nosuid,noexec 0 0' >> /etc/fstab
+# Add or update the /tmp entry
+if grep -q '/tmp' /etc/fstab; then
+    # Modify the existing /tmp entry
+    sed -i '/\/tmp/ s/defaults/nodev,nosuid,noexec/' /etc/fstab
+else
+    # Add new entry if /tmp is not in fstab
+    echo '/dev/sda2 /tmp ext4 nodev,nosuid,noexec 0 0' >> /etc/fstab
+fi
+
+
 
 # Optional: Copy current /tmp files to the new partition
 # cp -a /tmp_old/* /tmp/
