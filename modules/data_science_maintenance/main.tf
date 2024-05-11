@@ -259,9 +259,6 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   data_disk_type    = var.data_disk_type      //Amend - adding datadisk
   data_disk_size_gb = var.data_disk_size_gb   //Amend - adding datadisk
 
-  data_disk_type    = var.tmp_disk_type      //Amend - adding tmp adisk for CIS hardening 1.1.2.1 Ensure /tmp is a separate partition
-  data_disk_size_gb = var.tmp_disk_size_gb  //Amend - adding tmp adisk for CIS hardening 1.1.2.1 Ensure /tmp is a separate partition
-
   no_public_ip    = false
   no_proxy_access = false
 
