@@ -902,6 +902,94 @@ echo "3.5.3.3.1 Ensure ip6tables default deny firewall policy - 'Chain OUTPUT' -
 
 
 
+#1.1.2.1 Ensure /tmp is a separate partition
+#1.1.2.2 Ensure nodev option set on /tmp partition
+#1.1.2.3 Ensure noexec option set on /tmp partition
+#1.1.2.4 Ensure nosuid option set on /tmp partition
+
+
+echo "1.1.2.1 Ensure /tmp is a separate partition - STARTING"
+echo "1.1.2.2 Ensure nodev option set on /tmp partition - STARTING"
+echo "1.1.2.3 Ensure noexec option set on /tmp partition - STARTING"
+echo "1.1.2.4 Ensure nosuid option set on /tmp partition - STARTING"
+
+
+# Update package list and install fdisk and parted
+apt-get install -y fdisk 
+
+
+# Unmount /tmp if it is already mounted somewhere
+umount /tmp 2>/dev/null
+
+# Use fdisk to resize sda1 and create sda2
+{
+echo d # Delete partition
+echo 1 # Partition number 1
+echo n # Add a new partition
+echo p # Primary partition
+echo 1 # Partition number 1
+echo   # First sector (accept default: 2048)
+echo +90G # Last sector for sda1, shrink to make space for sda2
+echo n # New partition
+echo p # Primary partition
+echo 2 # Partition number 2
+echo   # First sector (accept default)
+echo   # Last sector (accept default, uses remaining space)
+echo w # Write changes
+} | fdisk /dev/sda
+
+# Inform OS of partition table changes
+partprobe
+
+# Format the new partition as ext4
+mkfs.ext4 /dev/sda2
+
+# Create a mount point for /tmp
+mkdir -p /tmp
+
+# Mount the new partition to /tmp
+mount /dev/sda2 /tmp
+
+# Set permissions for /tmp directory
+chmod 1777 /tmp
+
+# Backup the existing /etc/fstab
+cp /etc/fstab /etc/fstab.backup
+
+# Add the new partition to /etc/fstab so it remains mounted on reboot
+echo '/dev/sda2 /tmp ext4 defaults,nodev,nosuid,noexec 0 0' >> /etc/fstab
+
+# Optional: Copy current /tmp files to the new partition
+# cp -a /tmp_old/* /tmp/
+
+
+# Reload fstab to mount all
+mount -a
+
+echo "1.1.2.1 Ensure /tmp is a separate partition - COMPLETED"
+echo "1.1.2.2 Ensure nodev option set on /tmp partition - COMPLETED"
+echo "1.1.2.3 Ensure noexec option set on /tmp partition - COMPLETED"
+echo "1.1.2.4 Ensure nosuid option set on /tmp partition - COMPLETED"
+
+
+
+#1.1.8.2 Ensure noexec option set on /dev/shm partition
+echo "1.1.8.2 Ensure noexec option set on /dev/shm partition - STARTING"
+if grep -q '/dev/shm' /etc/fstab; then
+    # Modify the existing /dev/shm entry
+    sed -i '/\/dev\/shm/ s/defaults/nodev,noexec,nosuid/' /etc/fstab
+else
+    # Add new entry if /dev/shm is not in fstab
+    echo 'tmpfs /dev/shm tmpfs nodev,noexec,nosuid 0 0' >> /etc/fstab
+fi
+
+# Reload fstab to mount all again
+mount -a
+echo "1.1.8.2 Ensure noexec option set on /dev/shm partition - COMPLETED"
+
+
+
+
 # Check the current version of OpenSSL
 CURRENT_VERSION=$(openssl version)
 ECHO "Check if the current version is the vulnerable version - STARTING"
