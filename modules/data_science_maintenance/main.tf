@@ -57,8 +57,10 @@ locals {
     "bigquery.googleapis.com",
     "notebooks.googleapis.com",
     "bigquerystorage.googleapis.com",
-    "logging.googleapis.com",     //Amend - Enable loggin API for OS Agent monitoring
-    "monitoring.googleapis.com"    //Amend - Enable loggin API for OS Agent monitoring
+    "osconfig.googleapis.com",     //Amend - Enable loggin API for OS Agent monitoring
+    "logging.googleapis.com",     //Amend - Enable loggin API for Logging
+    "monitoring.googleapis.com"    //Amend - Enable loggin API for VM monitoring
+
   ]
   project_services = var.enable_services ? (var.billing_budget_pubsub_topic ? distinct(concat(local.default_apis,["pubsub.googleapis.com"])) : local.default_apis) : []
 }
