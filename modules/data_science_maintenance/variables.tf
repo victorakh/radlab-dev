@@ -194,13 +194,14 @@ variable "folder_id" {
 variable "gpu_accelerator_type" {
   description = "Type of GPU you would like to spin up. {{UIMeta group=3 order=10 }}"
   type        = string
-  default     = "NVIDIA_TESLA_T4"
+#  default     = "NVIDIA_TESLA_T4"
+  default     = NVIDIA_H100_80GB 
 }
 
 variable "gpu_accelerator_core_count" {
   description = "Number of of GPU core count. {{UIMeta group=3 order=11 }}"
   type        = number
-  default     = 1
+  default     = 8
 }
 
 variable "image_family" {
@@ -224,7 +225,7 @@ variable "ip_cidr_range" {
 variable "machine_type" {
   description = "Type of VM you would like to spin up. {{UIMeta group=3 order=6 }}"
   type        = string
-  default     = "n1-standard-1"
+  default     = "a3-highcpu-8g"
 }
 
 variable "network_name" {
