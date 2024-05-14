@@ -195,7 +195,7 @@ variable "gpu_accelerator_type" {
   description = "Type of GPU you would like to spin up. {{UIMeta group=3 order=10 }}"
   type        = string
 #  default     = "NVIDIA_TESLA_T4"
-  default     = NVIDIA_H100_80GB 
+  default     = "NVIDIA_H100_80GB" 
 }
 
 variable "gpu_accelerator_core_count" {
