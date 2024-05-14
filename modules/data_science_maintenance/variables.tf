@@ -194,8 +194,8 @@ variable "folder_id" {
 variable "gpu_accelerator_type" {
   description = "Type of GPU you would like to spin up. {{UIMeta group=3 order=10 }}"
   type        = string
-#  default     = "NVIDIA_TESLA_T4"
-  default     = "NVIDIA_H100_80GB" 
+  default     = "NVIDIA_TESLA_T4"
+#  default     = "NVIDIA_H100_80GB" 
 }
 
 variable "gpu_accelerator_core_count" {
@@ -324,7 +324,7 @@ variable "zone" {
   #description = "Cloud Zone associated to the AI Notebooks. {{UIMeta group=2 order=3 options=asia-southeast1-a,asia-southeast1-b,asia-southeast1-c }}"
   description = "Cloud Zone associated to the AI Notebooks. {{UIMeta group=0 order=3 options=asia-southeast1-a,asia-southeast1-b,asia-southeast1-c }}"
   type        = string
-  default     = "asia-southeast1-b"  // testing for H100. need to change back to a
+  default     = "asia-southeast1-a"  
 }
 
 ## Amend- Buket ID prefix
