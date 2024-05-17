@@ -201,7 +201,7 @@ variable "gpu_accelerator_type" {
 variable "gpu_accelerator_core_count" {
   description = "Number of of GPU core count. {{UIMeta group=3 order=11 }}"
   type        = number
-  default     = 8
+  default     = 1
 }
 
 variable "image_family" {
@@ -225,7 +225,7 @@ variable "ip_cidr_range" {
 variable "machine_type" {
   description = "Type of VM you would like to spin up. {{UIMeta group=3 order=6 }}"
   type        = string
-  default     = "a3-highcpu-8g"
+ default     = "n1-standard-1"
 }
 
 variable "network_name" {
