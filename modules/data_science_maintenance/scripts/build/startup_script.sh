@@ -385,18 +385,44 @@ echo "1.1.10 Disable USB Storage - modprobe and blacklist - COMPLETED"
 
 # 1.4.1 Ensure bootloader password is set - 'set superusers' and 'passwd_pbkdf2'
 echo "1.4.1 Ensure bootloader password is set - 'set superusers' and 'passwd_pbkdf2' - STARTING"
-# Define the bootloader password
-PASSWORD='BLP@ssw0rd'
 
-# Generate the PBKDF2 hash
-HASH=$(echo -e "$PASSWORD\n$PASSWORD" | grub-mkpasswd-pbkdf2 | awk '/PBKDF2 hash of your password is/{print $NF}')
+# Variables
+username="debianadmin"
+password="P@ssw0rd"
 
+# Function to generate an encrypted GRUB password
+generate_grub_password() {
+  encrypted_password=$(echo -e "$password\n$password" | grub-mkpasswd-pbkdf2 | grep 'PBKDF2 hash' | awk '{print $NF}')
+  echo "Generated GRUB password hash: $encrypted_password"
+}
 
-echo "Setting bootloader password..."
-echo 'set superusers="admin"' > /etc/grub.d/40_custom
-echo "password_pbkdf2 admin $HASH" >> /etc/grub.d/40_custom
-update-grub
+# Function to configure GRUB directly in /boot/grub/grub.cfg
+configure_grub_directly() {
+  # Backup existing /boot/grub/grub.cfg
+  cp /boot/grub/grub.cfg /boot/grub/grub.cfg.bak
+
+  # Add the configuration directly to /boot/grub/grub.cfg
+  cat <<EOF >> /boot/grub/grub.cfg
+set superusers="$username"
+password_pbkdf2 $username $encrypted_password
+EOF
+
+  echo "GRUB has been configured directly in /boot/grub/grub.cfg with the new superuser and password."
+}
+
+# Main script execution
+echo "Starting Debian 11 CIS hardening for bootloader password..."
+
+# Generate the encrypted password
+generate_grub_password
+
+# Configure GRUB directly in /boot/grub/grub.cfg
+configure_grub_directly
+
 echo "1.4.1 Ensure bootloader password is set - 'set superusers' and 'passwd_pbkdf2' - COMPLETED"
+
+
+
 
 
 # 1.4.2 Ensure permissions on bootloader config are configured
