@@ -57,7 +57,7 @@ locals {
     "bigquery.googleapis.com",
     "notebooks.googleapis.com",
     "bigquerystorage.googleapis.com",
-    "osconfig.googleapis.com",     //Amend - Enable loggin API for OS Agent monitoring
+#    "osconfig.googleapis.com",     //Amend - Enable loggin API for OS Agent monitoring
     "logging.googleapis.com",     //Amend - Enable loggin API for Logging
     "monitoring.googleapis.com"    //Amend - Enable loggin API for VM monitoring
 
@@ -429,6 +429,11 @@ resource "google_os_config_patch_deployment" "monthly_patch_debian" {
       month_day = 28
     }
   }
+
+  depends_on = [
+    google_project_service.vm_manager
+  ]
+
 }
 
 
