@@ -473,8 +473,8 @@ EOT
 # Note: The above rules assume these binaries exist and AIDE is configured to understand these attributes.
 # You may need to adjust the attributes based on what AIDE is configured to handle and what is relevant.
 
-#echo "Reinitializing AIDE to apply new configurations..."
-#yes | aideinit
+#echo "Initializing AIDE to apply new configurations..."
+yes | aideinit
 
 
 # Check if aideinit was successful
