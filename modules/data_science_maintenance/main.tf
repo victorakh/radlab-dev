@@ -224,7 +224,7 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   name         = "usermanaged-notebooks-${count.index + 1}"  // Original
 
 #  name         = "notebook-${var.project_id_prefix}-${count.index + 1}"    // Amend - usermanaged notebook name -  "notebook-projectname-1"
-  location     = "asia-southeast1-a"
+  location     = "asia-southeast1-b"
   machine_type = var.machine_type
 
   dynamic "vm_image" {
