@@ -403,7 +403,7 @@ resource "google_os_config_patch_deployment" "monthly_patch_debian" {
       }
     }
     
-    zones = ["asia-southeast1-a", "asia-southeast1-b"]   
+    zones = ["asia-southeast1-b"]   
    }
 
   patch_config {
