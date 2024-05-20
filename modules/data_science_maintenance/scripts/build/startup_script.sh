@@ -411,13 +411,13 @@ EOF
 }
 
 # Main script execution
-echo "Starting Debian 11 CIS hardening for bootloader password..."
+#echo "Starting Debian 11 CIS hardening for bootloader password..."
 
 # Generate the encrypted password
-generate_grub_password
+#generate_grub_password
 
 # Configure GRUB directly in /boot/grub/grub.cfg
-configure_grub_directly
+#configure_grub_directly
 
 echo "1.4.1 Ensure bootloader password is set - 'set superusers' and 'passwd_pbkdf2' - COMPLETED"
 
@@ -500,7 +500,7 @@ EOT
 # You may need to adjust the attributes based on what AIDE is configured to handle and what is relevant.
 
 #echo "Initializing AIDE to apply new configurations..."
-yes | aideinit
+#yes | aideinit
 
 
 # Check if aideinit was successful
@@ -996,6 +996,8 @@ fi
 # Optional: Copy current /tmp files to the new partition
 # cp -a /tmp_old/* /tmp/
 
+# Update GRUB configuration
+update-grub
 
 # Reload fstab to mount all
 mount -a
