@@ -278,7 +278,7 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
     terraform  = "true"
     proxy-mode = "mail"
     report-system-health = "true"  //Amend - Update report-system-health=TRUE
-    serial-port-enable = "TRUE"    //Amend - enable serial port console access to VM
+    serial-port-enable = "true"    //Amend - enable serial port console access to VM
   }
   depends_on = [
     time_sleep.wait_120_seconds,
