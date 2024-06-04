@@ -255,25 +255,11 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
 
   service_account = google_service_account.sa_p_notebook.email
 
-  #boot_disk_type    = var.boot_disk_type
-  #boot_disk_size_gb = var.boot_disk_size_gb
+  boot_disk_type    = var.boot_disk_type
+  boot_disk_size_gb = var.boot_disk_size_gb
 
-  #data_disk_type    = var.data_disk_type      //Amend - adding datadisk
-  #data_disk_size_gb = var.data_disk_size_gb   //Amend - adding datadisk
-
-
-  # Amend - adding datadisk
-  data_disks = [
-    {
-      disk_size_gb = var.boot_disk_size_gb  # Adjust size as needed
-      disk_type    = var.data_disk_type
-    },
-    {
-      disk_size_gb = 50  # Adjust size as needed (your desired 50GB data disk)
-      disk_type    = var.data_disk_type  # Use the same disk type as boot disk
-    },
-  ]
-
+  data_disk_type    = var.data_disk_type      //Amend - adding datadisk
+  data_disk_size_gb = var.data_disk_size_gb   //Amend - adding datadisk
 
   no_public_ip    = false
   no_proxy_access = false
