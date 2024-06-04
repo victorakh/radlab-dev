@@ -497,7 +497,7 @@ EOT
 # You may need to adjust the attributes based on what AIDE is configured to handle and what is relevant.
 
 #echo "Initializing AIDE to apply new configurations..."
-#yes | aideinit
+yes | aideinit
 
 
 # Check if aideinit was successful
