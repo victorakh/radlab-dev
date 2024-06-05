@@ -134,8 +134,7 @@ echo "1.3.2 Ensure filesystem integrity is regularly checked - COMPLETED"
 # 1.9 Ensure updates, patches, and additional security software are installed
 echo "1.9 Ensure updates, patches, and additional security software are installed - STARTING"
 apt-get update && apt-get upgrade -y
-apt-get dist-upgrade -y
-echo "0 3 * * * root apt-get update && apt-get upgrade -y && apt-get autoremove -y" > /etc/cron.d/auto-updates
+#echo "0 3 * * * root apt-get update && apt-get upgrade -y && apt-get autoremove -y" > /etc/cron.d/auto-updates
 systemctl daemon-reload
 echo "1.9 Ensure updates, patches, and additional security software are installed - COMPLETED"
 
