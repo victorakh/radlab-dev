@@ -88,7 +88,7 @@ variable "billing_budget_pubsub_topic" {
 }
 
 variable "boot_disk_size_gb" {
-  description = "The size of the boot disk in GB attached to this instance. 90GB for OS boot disk. 10GB will be allocated for /tmp partition. {{UIMeta group=3 order=7 options=100 }}"
+  description = "The size of the boot disk in GB attached to this instance. Allocation - 90GB for OS boot disk, 10GB for /tmp partition. {{UIMeta group=3 order=7 options=100 }}"
   type        = number
   default     = 100
 }
