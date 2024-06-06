@@ -356,7 +356,7 @@ resource "google_compute_disk" "extra_disk" {
   count       = var.notebook_count > 0 && var.create_usermanaged_notebook ? var.notebook_count : 0
   name        = "extra-disk-${count.index + 1}"
   project     = local.project.project_id
-  zone        = "asia-southeast1-b"
+  zone         = var.zone
   type        = "pd-standard"
   size        = 10
   physical_block_size_bytes = 4096
@@ -367,7 +367,7 @@ resource "google_compute_attached_disk" "attach_disk" {
   disk         = google_compute_disk.extra_disk[count.index].name
   instance     = google_notebooks_instance.ai_notebook_usermanaged[count.index].name
   project      = local.project.project_id
-  zone         = "asia-southeast1-b"
+  zone         = var.zone
   device_name  = "extra-disk-${count.index + 1}"
 
   depends_on = [
