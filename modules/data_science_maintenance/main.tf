@@ -421,7 +421,7 @@ resource "google_os_config_patch_deployment" "monthly_patch_debian" {
       }
     }
     
-    zones = var.zone   
+    zones = ["asia-southeast1-b"]   
    }
 
   patch_config {
