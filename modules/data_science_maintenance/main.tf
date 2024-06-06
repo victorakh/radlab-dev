@@ -20,14 +20,7 @@ locals {
   ? try(module.project_radlab_ds_analytics.0, null)
   : try(data.google_project.existing_project.0, null)
   )
-
-
-
-  #hardcode Singapore to bypass the region/zone bug
-  #region = join("-", [split("-", var.zone)[0], split("-", var.zone)[1]])
-  region = "asia-southeast1"
-
-
+  region = join("-", [split("-", var.zone)[0], split("-", var.zone)[1]])
 
   network = (
   var.create_network
@@ -40,6 +33,8 @@ locals {
   ? try(module.vpc_ai_notebook.0.subnets["${local.region}/${var.subnet_name}"], null)
   : try(data.google_compute_subnetwork.default.0, null)
   )
+
+
 
   notebook_sa_project_roles = [
     "roles/compute.instanceAdmin",
@@ -206,10 +201,8 @@ resource "google_project_iam_member" "member_custom_role" {
 resource "null_resource" "ai_notebook_usermanaged_provisioning_state" {
   for_each = toset(google_notebooks_instance.ai_notebook_usermanaged[*].name)
   provisioner "local-exec" {
-    #command = "while [ \"$(gcloud notebooks instances list --location ${var.zone} --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"
-    #hardcode Singapore to bypass the region/zone bug
-    command = "while [ \"$(gcloud notebooks instances list --location \"asia-southeast1-b\" --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"  
-}
+    command = "while [ \"$(gcloud notebooks instances list --location ${var.zone} --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"
+  }
 
   depends_on = [google_notebooks_instance.ai_notebook_usermanaged]
 }
@@ -224,7 +217,7 @@ resource "google_notebooks_instance" "ai_notebook_usermanaged" {
   name         = "usermanaged-notebooks-${count.index + 1}"  // Original
 
 #  name         = "notebook-${var.project_id_prefix}-${count.index + 1}"    // Amend - usermanaged notebook name -  "notebook-projectname-1"
-  location     = "asia-southeast1-b"
+  location     = var.zone
   machine_type = var.machine_type
 
   dynamic "vm_image" {
