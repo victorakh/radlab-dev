@@ -319,10 +319,9 @@ variable "rad-lab-users" {
   default     = ["rad-lab-users@gacteam.online"]
 }
 
-#Hide this as I'm fixing the region/zone bug by hardcoding in main.tf so no point displaying this option
 variable "zone" {
   #description = "Cloud Zone associated to the AI Notebooks. {{UIMeta group=2 order=3 options=asia-southeast1-a,asia-southeast1-b,asia-southeast1-c }}"
-  description = "Cloud Zone associated to the AI Notebooks. {{UIMeta group=0 order=3 options=asia-southeast1-a,asia-southeast1-b,asia-southeast1-c }}"
+  description = "Cloud Zone associated to the AI Notebooks. {{UIMeta group=2 order=3 options=asia-southeast1-a,asia-southeast1-b,asia-southeast1-c }}"
   type        = string
   default     = "asia-southeast1-b"  
 }
