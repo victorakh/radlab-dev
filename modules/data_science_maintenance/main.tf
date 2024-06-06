@@ -208,7 +208,7 @@ resource "null_resource" "ai_notebook_usermanaged_provisioning_state" {
   provisioner "local-exec" {
     #command = "while [ \"$(gcloud notebooks instances list --location ${var.zone} --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"
     #hardcode Singapore to bypass the region/zone bug
-    command = "while [ \"$(gcloud notebooks instances list --location \"asia-southeast1-a\" --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"  
+    command = "while [ \"$(gcloud notebooks instances list --location \"asia-southeast1-b\" --project ${local.project.project_id} --filter 'NAME:${each.value} AND STATE:ACTIVE' --format 'value(STATE)' | wc -l | xargs)\" != 1 ]; do echo \"${each.value} not active yet.\"; done"  
 }
 
   depends_on = [google_notebooks_instance.ai_notebook_usermanaged]
